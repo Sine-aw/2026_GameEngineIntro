@@ -1,11 +1,13 @@
+using Unity.VectorGraphics;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
     public Vector2 moveInput;
     public float moveSpeed = 7f;
-    public float jumpForce = 7f;
+    public float jumpForce = 10f;
     private Rigidbody2D rb;
     private Animator myAnimator;
 
@@ -28,6 +30,19 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.name == "Death")
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+        else
+        {
+            SceneManager.LoadScene("PlayScene_" + collision.name);
+        }
+    }
+
 
     void Update()
     {
